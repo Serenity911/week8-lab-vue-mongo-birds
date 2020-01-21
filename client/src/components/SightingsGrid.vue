@@ -21,12 +21,18 @@ export default {
 	mounted(){
     this.fetchData();
 		eventBus.$on('sighting-added', (sighting) => this.sightings.push(sighting))
+		eventBus.$on('sighting-deleted', (sightingId) => {
+			let index = this.sightings.findIndex(sighting => sighting._id === sightingId)
+			this.sightings.splice(index, 1)
+		})
+
   },
   methods: {
     fetchData(){
       SightingService.getSightings()
       .then(sightings => this.sightings = sightings);
     }
+
   }
 
 }
