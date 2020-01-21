@@ -19,15 +19,28 @@
 </template>
 
 <script>
+import { eventBus } from '../main.js'
+import SightingService from '../services/SightingService.js'
 export default {
 	name: "sightings-form",
 	data(){
 		return {
-
+			species: '',
+			location: '',
+			date: new Date('')
 		}
 	},
 	methods: {
-
+		handleFormSubmit(e) {
+			e.preventDefault()
+			const payload = {
+				species: this.species,
+				location: this.location,
+				date: this.date
+			}
+			SightingService.postSightings(payload)
+			.then(res => eventBus.$emit('sighting-added', res))
+		}
 	}
 }
 </script>
